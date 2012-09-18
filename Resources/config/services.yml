@@ -1,0 +1,25 @@
+## YAML Template.
+
+#services:
+#    elendev.vendor:
+#        class: Elendev\TestBundle\DependencyInjection\PathLoader
+#        public: false
+#        tags:
+#            - { name : routing.loader}
+
+
+services:
+  
+    elendev.image.manager:
+        class: Elendev\ImageBundle\Managers\GDImageManager
+        
+    elendev.image.proxyFactory:
+        class: Elendev\ImageBundle\SimpleImageProxyFactory
+        arguments: ["@elendev.image.manager", %elendev.image.sourceDirectory%, %elendev.image.cacheDirectory%, %elendev.image.cacheUrl%]
+  
+  
+    elendev.image.twig_extension:
+        class: Elendev\ImageBundle\Extensions\ImageExtension
+        arguments: ["@elendev.image.proxyFactory"]
+        tags:
+            - { name: twig.extension }
