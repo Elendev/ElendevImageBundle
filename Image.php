@@ -43,7 +43,7 @@ class Image {
         
         $pathinfo = pathinfo($path);
         
-        $this->fileName = $pathinfo["filename"];
+         $this->fileName = $pathinfo["filename"];
         $this->dirName = $pathinfo["dirname"];
         $this->extension = $pathinfo["extension"];
         
@@ -55,9 +55,12 @@ class Image {
                 break;
             case "png":
                 $this->type = self::TYPE_PNG;
+                break;
             case "gif":
                 $this->type = self::TYPE_GIF;
+                break;
         }
+       
     }
     
     public function getPath() {

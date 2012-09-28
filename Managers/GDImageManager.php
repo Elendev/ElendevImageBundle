@@ -26,80 +26,94 @@ use Elendev\ImageBundle\ImageManager;
  * 
  * @author Jonas Renaudot <www.elendev.com>
  */
-class GDImageManager implements ImageManager{
-    
+class GDImageManager implements ImageManager
+{
+
     /**
      * Return the current image resource
      */
-    public function getImage(Image $image){
-        
-        switch($image->getType()){
+    public function getImage(Image $image)
+    {
+
+        switch ($image->getType()) {
             case Image::TYPE_JPG:
                 $resource = imagecreatefromjpeg($image->getPath());
                 break;
             case Image::TYPE_PNG:
                 $resource = imagecreatefrompng($image->getPath());
+
                 break;
             case Image::TYPE_GIF:
                 $resource = imagecreatefromgif($image->getPath());
                 break;
         }
-        
+
         return new GDImageResource($image, $resource);
     }
-    
+
     /**
      * return the image size
      * @param Image $image 
      * @return array($width, $height)
      */
-    public function getImageSize(Image $image){
+    public function getImageSize(Image $image)
+    {
         $size = getimagesize($image->getPath());
-        
+
         return array($size[0], $size[1]);
     }
-    
+
     /**
      * Resize the current picture
      * @param type $resource
      * @param type $width
      * @param type $height
      */
-    public function resize($resource, $width, $height){
-        
+    public function resize($resource, $width, $height)
+    {
+
         $source = $resource->getSource();
-        
+
         $newResource = @imagecreatetruecolor($width, $height);
-        
+        imagealphablending($newResource, false);
+        imagesavealpha($newResource, true);
+
+        $col = imagecolorallocatealpha($newResource, 255, 255, 255, 127);
+        imagecolortransparent($newResource, $col);
+
+        imagefilledrectangle($newResource, 0, 0, $width, $height, $col);
         @imagecopyresampled($newResource, $resource->getResource(), 0, 0, 0, 0, $width, $height, $source->getWidth(), $source->getHeight());
-        
+
         $resource->setResource($newResource);
     }
-    
+
     /**
      * do a rotation of the current picture
      * @param type $resource
      * @param type $degrees
      * @param type $bgcolor 
      */
-    public function rotate($resource, $degrees, $bgcolor){
+    public function rotate($resource, $degrees, $bgcolor)
+    {
         $newResource = @imagerotate($resource->getResource(), $degrees, $bgcolor);
         $resource->setResource($newResource);
     }
-    
+
     /**
      * Convert to greyscale
      */
-    public function greyScale($resource){
+    public function greyScale($resource)
+    {
         @imagefilter($resource->getResource(), IMG_FILTER_GRAYSCALE);
     }
-    
+
     /**
      * Save the current resource to the destination file
      */
-    public function save($resource, $destination){
-        
-        switch($resource->getSource()->getType()){
+    public function save($resource, $destination)
+    {
+
+        switch ($resource->getSource()->getType()) {
             case Image::TYPE_JPG:
                 @imagejpeg($resource->getResource(), $destination);
                 break;
@@ -110,7 +124,6 @@ class GDImageManager implements ImageManager{
                 @imagegif($resource->getResource(), $destination);
                 break;
         }
-        
     }
-    
+
 }
