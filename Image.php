@@ -43,7 +43,7 @@ class Image {
         
         $pathinfo = pathinfo($path);
         
-         $this->fileName = $pathinfo["filename"];
+        $this->fileName = $pathinfo["filename"];
         $this->dirName = $pathinfo["dirname"];
         $this->extension = $pathinfo["extension"];
         

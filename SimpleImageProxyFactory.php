@@ -58,7 +58,7 @@ class SimpleImageProxyFactory implements ImageProxyFactory {
     public function getImageProxy($path){
         
         //No file available
-        if(!file_exists($this->srcDir . "/" . $path)){
+        if(!file_exists($this->srcDir . "/" . $path) || is_dir($this->srcDir . "/" . $path)){
             return new NoFileImageProxy();
         }
         
