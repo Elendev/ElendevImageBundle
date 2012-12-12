@@ -16,6 +16,8 @@
  */
 
 namespace Elendev\ImageBundle;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Basic implementation of image proxy factory. Generate a NoFileImageProxy when no file
@@ -33,19 +35,36 @@ class SimpleImageProxyFactory implements ImageProxyFactory {
     
     private $manager;
     
+    /* @var $container ContainerInterface */
+    private $container;
+    
     /**
      *
      * @param type $sourceDirectry
      * @param type $cacheDirectory
      * @param type $cacheUrl 
      */
-    public function __construct($manager, $srcDir, $cacheDir, $cacheUrl){
+    public function __construct($manager, $srcDir, $cacheDir, $cacheUrl, ContainerInterface $container){
         
         $this->manager = $manager;
         
+        $this->container = $container;
+        
         $this->srcDir = $srcDir;
         $this->cacheDir = $cacheDir;
-        $this->cacheUrl = $cacheUrl;
+        
+        if(!$cacheUrl){
+            
+            $request = $container->get("request");
+            $webDir = $container->getParameter("kernel.root_dir") . "/../web";
+            $fs = new Filesystem();
+            
+            $this->cacheUrl = $container->get('templating.helper.assets')->getUrl($fs->makePathRelative($cacheDir, $webDir));
+        }else{
+            $this->cacheUrl = $cacheUrl;
+            die($cacheUrl);
+        }
+        
     }
 
 

@@ -15,7 +15,7 @@ services:
         
     elendev.image.proxyFactory:
         class: Elendev\ImageBundle\SimpleImageProxyFactory
-        arguments: ["@elendev.image.manager", %elendev.image.sourceDirectory%, %elendev.image.cacheDirectory%, %elendev.image.cacheUrl%]
+        arguments: ["@elendev.image.manager", %elendev.image.sourceDirectory%, %elendev.image.cacheDirectory%, %elendev.image.cacheUrl%, "@service_container"]
   
   
     elendev.image.twig_extension:

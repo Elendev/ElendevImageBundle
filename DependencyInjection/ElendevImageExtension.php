@@ -65,7 +65,7 @@ class ElendevImageExtension extends Extension
         if(isset($config["cache_url"])){
             $container->setParameter("elendev.image.cacheUrl", $config["cache_url"]);
         }else{
-            $container->setParameter("elendev.image.cacheUrl", "/web/medias/cache");
+            $container->setParameter("elendev.image.cacheUrl", null);
         }
         
     }
