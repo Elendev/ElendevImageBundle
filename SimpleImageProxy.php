@@ -188,10 +188,14 @@ class SimpleImageProxy implements ImageProxy{
     }
     
     /**
-     * return image's url
+     * return image's url or null in case of error
      */
     public function __toString(){
-        return $this->getUrl();
+        try{
+            return $this->getUrl();
+        }catch(\Exception $e){
+            return "";
+        }
     }
     
 }
