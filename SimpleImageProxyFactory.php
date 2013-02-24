@@ -53,7 +53,7 @@ class SimpleImageProxyFactory implements ImageProxyFactory {
         $this->srcDir = $srcDir;
         $this->cacheDir = $cacheDir;
         
-        if(!$cacheUrl){
+        if(!$cacheUrl && $container->isScopeActive("request")){
             $webDir = $container->getParameter("kernel.root_dir") . "/../web";
             $fs = new Filesystem();
             
