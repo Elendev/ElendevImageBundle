@@ -1,7 +1,7 @@
 {
     "name": "elendev/image-bundle",
     "description": "Provide simple image utilities for resizing",
-    "keywords": ["image","twing filter"],
+    "keywords": ["image","twig filter"],
     "homepage": "http://blog.elendev.com",
     "type": "symfony-bundle",
     "license": "Apache2",
@@ -13,7 +13,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "symfony/framework-bundle": ">=2.1,<2.6"
+        "symfony/framework-bundle": "~2.1"
     },
     "require-dev": {
         "sensio/framework-extra-bundle": "*",
