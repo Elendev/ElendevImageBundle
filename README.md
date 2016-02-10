@@ -8,7 +8,9 @@ Bundle configuration
     	source_dir: 'path_to_image_dir'
     	cache_url: 'url/to/cache/dir'
     	
-I actually don't know a better way to guess the cache_url.
+The `cache_dir` configuration key is the local path to the cache directory. It's the directory where the generated files will be stored (for example : `/var/www/my-website/media/cache`)
+The `source_dir` configuration key is the local path to the directory containing the images (for example : `/var/www/my-website/media/original-files`)
+The `cache_url` configuration key is the url to the cache directory. If the url `http://www.my-website.com` redirect to the local `/var/www/my-website` directory, the value of this configuration key would be `http://www.my-website.com/media/cache`.
 
 Use Twig's extension image method
 ---------------------------------
