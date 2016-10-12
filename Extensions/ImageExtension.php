@@ -47,7 +47,7 @@ class ImageExtension extends \Twig_Extension {
     
     public function getFunctions(){
         return array(
-            'image' => new \Twig_Function_Method($this, 'image', array('is_safe' => array('html')))
+            new \Twig_SimpleFunction('image', [$this, 'image'], array('is_safe' => array('html')))
         );
     }
     
