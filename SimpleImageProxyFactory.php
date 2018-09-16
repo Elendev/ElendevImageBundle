@@ -37,31 +37,41 @@ class SimpleImageProxyFactory implements ImageProxyFactory {
     
     /* @var $container ContainerInterface */
     private $container;
-    
+
     /**
      *
      * @param type $sourceDirectry
      * @param type $cacheDirectory
-     * @param type $cacheUrl 
+     * @param type $cacheUrl
      */
     public function __construct($manager, $srcDir, $cacheDir, $cacheUrl, ContainerInterface $container){
-        
+
         $this->manager = $manager;
-        
+
         $this->container = $container;
-        
+
         $this->srcDir = $srcDir;
         $this->cacheDir = $cacheDir;
-        
-        if(!$cacheUrl && $container->isScopeActive("request")){
+
+        if (empty($cacheUrl)) {
+
+            $assetsPackage = $container->get('assets.packages');
+
             $webDir = $container->getParameter("kernel.root_dir") . "/../web";
             $fs = new Filesystem();
-            
-            $this->cacheUrl = $container->get('templating.helper.assets')->getUrl($fs->makePathRelative($cacheDir, $webDir));
-        }else{
-            $this->cacheUrl = $cacheUrl;
+
+            if (empty($assetsPackage)) {
+                // Legacy for Symfony 2
+                $assetsPackage = $container->get('templating.helper.assets');
+            }
+
+            if (!empty($assetsPackage)) {
+                $cacheUrl = $assetsPackage->getUrl($fs->makePathRelative($cacheDir, $webDir));
+            }
         }
-        
+
+        $this->cacheUrl = $cacheUrl;
+
     }
 
 
